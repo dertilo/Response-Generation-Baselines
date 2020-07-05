@@ -40,6 +40,7 @@ parser.add_argument('--use_knowledge', type=str2bool, const=True, nargs='?', def
 parser.add_argument('--data_path', type=str, default='processed_output/')
 parser.add_argument('--data_size', type=float, default=-1.0)
 parser.add_argument('--save_path', type=str, default='save/')
+parser.add_argument('--load_path', type=str, default=None)
 
 args = parser.parse_args()
 
@@ -90,7 +91,13 @@ if args.seq2seq:
                         use_knowledge=args.use_knowledge,
                         args=args).cuda()
 elif args.transformer:
-  model = model.Transformer(i2w=i2w, use_knowledge=args.use_knowledge, args=args).cuda()
+    model = model.Transformer(i2w=i2w, use_knowledge=args.use_knowledge,
+                              args=args).cuda()
+
+    if args.load_path:
+        model.load(args.load_path)
+        model.cuda()
+
 else:
   raise Exception("Must be one of transformer or seq2seq")
 
