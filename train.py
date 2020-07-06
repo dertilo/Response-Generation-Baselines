@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser(description='Topical-Chat Training Script')
 parser.add_argument('--seed', type=int, default=42, metavar='S', help='random seed (default: 42)')
 
 parser.add_argument('--num_epochs', type=int, default=20)
-parser.add_argument('--batch_size', type=int, default=64, metavar='N')
+parser.add_argument('--batch_size', type=int, default=8, metavar='N')
 parser.add_argument('--use_attn', type=str2bool, const=True, nargs='?', default=False)
 
 parser.add_argument('--emb_size', type=int, default=300)
@@ -102,7 +102,7 @@ else:
   raise Exception("Must be one of transformer or seq2seq")
 
 step = 0
-constant =  2.0 * (args.hid_size ** -0.5)
+constant =  2.0 * (args.hid_size ** -0.5) * args.batch_size / 64
 warmup = 16000
 for epoch in range(args.num_epochs):
   indices = list(range(len(train)))
@@ -133,7 +133,7 @@ for epoch in range(args.num_epochs):
 
     # Log batch 
     if batch > 0 and batch % 50 == 0:
-      print("Epoch {0}/{1} Batch {2}/{3} Avg Loss {4:.2f} LR {5:.4f}".format(epoch+1, args.num_epochs, batch, num_batches, cum_loss/50, lr))
+      print("Epoch {0}/{1} Batch {2}/{3} Avg Loss {4:.2f} LR {5:.6f}".format(epoch+1, args.num_epochs, batch, num_batches, cum_loss/50, lr))
       cum_loss = 0
 
   model.save("{0}/model_{1}.bin".format(args.save_path, epoch))
