@@ -39,14 +39,14 @@ def eval(gt, out, f):
 
 # Frequent
 freq_gt = [l.replace('_eos', '').replace('_go', '').strip().split() for l in open(args.data_path + 'test_freq.tgt').readlines()]
-freq_out = [l.strip().split() for l in open(args.save_path + 'freq_out.tgt').readlines()]
+freq_out = [l.strip().split() for l in open(args.save_path + 'valid_freq_out.tgt').readlines()]
 print("F-1 score:", eval(freq_gt, freq_out, f1))
 print("Distinct Unigrams:", eval(freq_gt, freq_out, unigram_div))
 print("Distinct Bigrams:", eval(freq_gt, freq_out, bigram_div))
 
-# Rare
-rare_gt = [l.replace('_eos', '').replace('_go', '').strip().split() for l in open(args.data_path + 'test_rare.tgt').readlines()]
-rare_out = [l.strip().split() for l in open(args.save_path + 'rare_out.tgt').readlines()]
-print("F-1 score:", eval(rare_gt, rare_out, f1))
-print("Distinct Unigrams:", eval(rare_gt, rare_out, unigram_div))
-print("Distinct Bigrams:", eval(rare_gt, rare_out, bigram_div))
+# # Rare
+# rare_gt = [l.replace('_eos', '').replace('_go', '').strip().split() for l in open(args.data_path + 'test_rare.tgt').readlines()]
+# rare_out = [l.strip().split() for l in open(args.save_path + 'rare_out.tgt').readlines()]
+# print("F-1 score:", eval(rare_gt, rare_out, f1))
+# print("Distinct Unigrams:", eval(rare_gt, rare_out, unigram_div))
+# print("Distinct Bigrams:", eval(rare_gt, rare_out, bigram_div))

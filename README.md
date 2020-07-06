@@ -16,6 +16,22 @@ The pre-processed data can be found in `data.zip`. If you would like to use a di
 
 The pre-trained models can be found at: https://drive.google.com/file/d/1fPB45RDs_BcJ8KZeYQiauK3W1RsdY2hM/view?usp=sharing
 
+```shell script
+(base) root@gunther:/docker-share/Response-Generation-Baselines# CUDA_VISIBLE_DEVICES=1 python3 test.py --use_knowledge --transformer --batch_size=8 --save_path /docker-share/data/transformer_trained
+Number of training instances: 179709
+Number of validation (freq) instances: 11274
+Number of validation (rare) instances: 11246
+Number of testing (freq) instances: 11207
+Number of testing (rare) instances: 11206
+100%|███████| 1410/1410 [07:02<00:00,  3.34it/s]
+Epoch: 20 PPL: 20.090918719325273
+
+(base) root@gunther:/docker-share/Response-Generation-Baselines# python run_metrics.py --save_path /docker-share/data/transformer_trained/
+F-1 score: 0.1486375601119171
+Distinct Unigrams: 0.7794670809070053
+Distinct Bigrams: 0.8808489533312245
+```
+
 # Contact
 
 If you experience any issues with this code, please contact me at mehrishikib@gmail.com

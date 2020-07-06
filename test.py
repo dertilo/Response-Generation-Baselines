@@ -120,6 +120,15 @@ for batch in tqdm(range(num_batches)):
   # Decode batch
   predicted_sentences += model.decode(input_seq, input_lens)
 
+    # Evaluate batch
+  cum_loss += model.eval_ppl(input_seq, input_lens, target_seq, target_lens)
+  cum_words += (target_seq != w2i['_pad']).sum().item()
+
+  # Log epoch
+ppl = math.exp(cum_loss/cum_words)
+
+print("Epoch: {0} PPL: {1}".format(best_epoch, ppl))
+
 
 # Save predictions
 open("{0}/valid_freq_out.tgt".format(args.save_path), "w+").writelines([l+"\n" for l in predicted_sentences])
