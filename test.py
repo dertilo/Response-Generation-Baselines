@@ -1,3 +1,5 @@
+import os
+
 import argparse
 import json
 import math
@@ -98,10 +100,10 @@ elif args.transformer:
   model = model.Transformer(i2w=i2w, use_knowledge=args.use_knowledge, args=args, test=True).cuda()
 
 # First do freqent test set
-print("Frequent set evaluation")
 best_epoch = 7
 best_ppl = float('inf')
-for epoch in range(args.num_epochs):
+num_epochs = len([f for f in os.listdir(args.save_path) if f.endswith('.bin')])
+for epoch in range(num_epochs):
   # Load model
   model.load("{0}/model_{1}.bin".format(args.save_path, epoch))
   model.transformer.eval()
@@ -132,6 +134,7 @@ for epoch in range(args.num_epochs):
   print("Epoch: {0} PPL: {1}".format(epoch+1, ppl))
 
 # TEST EVALUATION
+print("best epoch: %d"%best_epoch)
 model.load("{0}/model_{1}.bin".format(args.save_path, best_epoch))
 model.transformer.eval()
 
@@ -232,4 +235,4 @@ open("{0}/freq_out.tgt".format(args.save_path), "w+").writelines([l+"\n" for l i
 #print("TEST RARE PPL: {0}".format(ppl))
 #
 ## Save predictions
-#open("{0}/rare_out.tgt".format(args.save_path), "w+").writelines([l+"\n" for l in predicted_sentences])
+# open("{0}/rare_out.tgt".format(args.save_path), "w+").writelines([l+"\n" for l in predicted_sentences])
