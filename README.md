@@ -48,26 +48,10 @@ Epoch 20/20 Batch 22450/22464 Avg Loss 3.81 LR 0.0002
 ```
 * test.py
 ```shell script
-(base) root@gunther:/docker-share/Response-Generation-Baselines# python3 test.py --use_knowledge --transformer --batch_size=8 --save_path transformer/
-Number of training instances: 179709                
-Number of validation (freq) instances: 11274           
-Number of validation (rare) instances: 11246              
-Number of testing (freq) instances: 11207             
-Number of testing (rare) instances: 11206               
-Frequent set evaluation for 41 epochs
-100%|████████████████████████████████████████████████████████████████████████████████████████████| 1410/1410 [00:31<00:00, 45.48it/s]
-Epoch: 1 PPL: 69.01204057678481
-100%|████████████████████████████████████████████████████████████████████████████████████████████| 1410/1410 [00:31<00:00, 45.40it/s]
-Epoch: 2 PPL: 67.77956874669752
-100%|████████████████████████████████████████████████████████████████████████████████████████████| 1410/1410 [00:31<00:00, 45.32it/s]
-Epoch: 3 PPL: 63.137275843614844
-100%|████████████████████████████████████████████████████████████████████████████████████████████| 1410/1410 [00:31<00:00, 45.04it/s]
-...
-Epoch: 39 PPL: 38.044889044852134
-100%|████████████████████████████████████████████████████████████████████████████████████████████| 1410/1410 [00:31<00:00, 45.14it/s]
-Epoch: 40 PPL: 38.48767700783606
-100%|████████████████████████████████████████████████████████████████████████████████████████████| 1410/1410 [00:31<00:00, 45.08it/s]
-Epoch: 41 PPL: 37.944097115863094
+CUDA_VISIBLE_DEVICES=1 python3 test.py --use_knowledge --transformer --batch_size=8 --save_path transformer --epoch 20
+Number of testing (rare) instances: 11206
+100%|█████████| 1410/1410 [06:29<00:00,  3.62it/s]
+Epoch: 20 PPL: 35.54887752485379
 ```
 * run_metrics.py
 ```shell script
