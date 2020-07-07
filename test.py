@@ -24,7 +24,7 @@ parser = argparse.ArgumentParser(description='Topical-Chat Training Script')
 parser.add_argument('--seed', type=int, default=42, metavar='S', help='random seed (default: 42)')
 
 parser.add_argument('--epoch', nargs='+',type=int, default=[20])
-parser.add_argument('--batch_size', type=int, default=64, metavar='N')
+parser.add_argument('--batch_size', type=int, default=8, metavar='N')
 parser.add_argument('--use_attn', type=str2bool, const=True, nargs='?', default=False)
 
 parser.add_argument('--emb_size', type=int, default=300)
@@ -36,17 +36,14 @@ parser.add_argument('--l2_norm', type=float, default=0.00001)
 parser.add_argument('--clip', type=float, default=5.0, help='clip the gradient by norm')
 
 parser.add_argument('--seq2seq', type=str2bool, const=True, nargs='?', default=False)
-parser.add_argument('--transformer', type=str2bool, const=True, nargs='?', default=False)
 
-parser.add_argument('--use_knowledge', type=str2bool, const=True, nargs='?', default=False)
+parser.add_argument('--use_knowledge', type=str2bool, const=True, nargs='?', default=True)
 
 parser.add_argument('--data_path', type=str, default='processed_output/')
 parser.add_argument('--data_size', type=float, default=-1.0)
 parser.add_argument('--save_path', type=str, default='save/')
 # fmt:on
 args = parser.parse_args()
-
-assert args.seq2seq or args.transformer, "Must turn on one training flag"
 
 if not args.data_path.endswith("/"):
     args.data_path = args.data_path + "/"
@@ -74,7 +71,7 @@ def run_validation(epoch, dataset_name: str):
     model = Transformer(
         i2w=i2w, use_knowledge=args.use_knowledge, args=args, test=True
     ).cuda()
-    model.load("{0}/model_{1}.bin".format(args.save_path, epoch))
+    model.load("{0}model_{1}.bin".format(args.save_path, epoch))
     model.transformer.eval()
     # Iterate over batches
     num_batches = math.ceil(len(dataset) / args.batch_size)
@@ -102,12 +99,12 @@ def run_validation(epoch, dataset_name: str):
     print("{} Epoch: {} PPL: {}".format(dataset_name, epoch, ppl))
     # Save predictions
     open(
-        "{0}/{1}_epoch_{2}.pred".format(args.save_path, dataset_name, str(epoch)), "w+"
+        "{0}{1}_epoch_{2}.pred".format(args.save_path, dataset_name, str(epoch)), "w+"
     ).writelines([l + "\n" for l in predicted_sentences])
 
 
 for ep in args.epoch:
-    run_validation(ep, "valid_freq")
-    run_validation(ep, "valid_rare")
+    # run_validation(ep, "valid_freq")
+    # run_validation(ep, "valid_rare")
     run_validation(ep, "test_freq")
     run_validation(ep, "test_rare")
