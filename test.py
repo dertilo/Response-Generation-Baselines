@@ -38,6 +38,7 @@ parser.add_argument('--clip', type=float, default=5.0, help='clip the gradient b
 parser.add_argument('--seq2seq', type=str2bool, const=True, nargs='?', default=False)
 
 parser.add_argument('--use_knowledge', type=str2bool, const=True, nargs='?', default=True)
+parser.add_argument('--cheating', type=str2bool, const=True, nargs='?', default=False)
 
 parser.add_argument('--data_path', type=str, default='processed_output/')
 parser.add_argument('--data_size', type=float, default=-1.0)
